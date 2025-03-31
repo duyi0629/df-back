@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "es5",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,          // 允许混合JS和TS
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,            // 建议开启严格模式
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,            // 由Babel处理输出
+    "jsx": "react-jsx"         // React 17+ 的JSX转换
+  },
+  "include": ["src/**/*"]      // 指定编译范围
+}
