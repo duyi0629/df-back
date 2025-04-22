@@ -1,85 +1,67 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { Button, Form, Input, InputNumber } from "antd";
 
-import { Input } from "@/components/ui/input";
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+const validateMessages = {
+  required: "${label} is required!",
+  types: {
+    email: "${label} is not a valid email!",
+    number: "${label} is not a valid number!",
+  },
+  number: {
+    range: "${label} must be between ${min} and ${max}",
+  },
+};
 
-import { addArticle } from "@/service/modules/article";
+const onFinish = (values: any) => {
+  console.log(values);
+};
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "title must be at least 2 characters.",
-  }),
-  content: z.string().min(6, {
-    message: "content must be at least 6 characters.",
-  }),
-});
-export default function ArticleEdit({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      content: "",
-    },
-  });
+const App: React.FC = () => (
+  <Form
+    {...layout}
+    name="nest-messages"
+    onFinish={onFinish}
+    style={{ maxWidth: 600 }}
+    validateMessages={validateMessages}
+  >
+    <Form.Item
+      name={["article", "name"]}
+      label="标题"
+      rules={[{ required: true }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name={["user", "email"]}
+      label="Email"
+      rules={[{ type: "email" }]}
+    >
+      <Input />
+    </Form.Item>
+    <Form.Item
+      name={["user", "age"]}
+      label="Age"
+      rules={[{ type: "number", min: 0, max: 99 }]}
+    >
+      <InputNumber />
+    </Form.Item>
+    <Form.Item name={["user", "website"]} label="Website">
+      <Input />
+    </Form.Item>
+    <Form.Item name={["user", "introduction"]} label="Introduction">
+      <Input.TextArea />
+    </Form.Item>
+    <Form.Item label={null}>
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </Form.Item>
+  </Form>
+);
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-
-    const res = await addArticle(values)
-  }
-  return (
-    <div className={cn("flex flex-col gap-6 h-full px-8 py-6", className)} {...props}>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>title</FormLabel>
-                <FormControl>
-                  <Input placeholder="title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>content</FormLabel>
-                <FormControl>
-                  <Input placeholder="content" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">发布文章</Button>
-        </form>
-      </Form>
-    </div>
-  );
-}
+export default App;

@@ -5,7 +5,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 const user = {
   name: "shadcn",
   email: "m@example.com",
-  avatar: "/avatars/shadcn.jpg",
+  // avatar: "/avatars/shadcn.jpg",
 };
 
 const AppHeader = memo(() => {

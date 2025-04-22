@@ -2,14 +2,14 @@ import { AppSidebar } from "./app-sidebar";
 import AppHeader from "./app-header";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+// import {
+//   Breadcrumb,
+//   BreadcrumbItem,
+//   BreadcrumbLink,
+//   BreadcrumbList,
+//   BreadcrumbPage,
+//   BreadcrumbSeparator,
+// } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -52,7 +52,7 @@ export default function MainLayout() {
       <SidebarInset>
         <AppHeader />
         <HistoryTab></HistoryTab>
-        <header className="flex h-8 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+        {/* <header className="flex h-8 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -66,11 +66,10 @@ export default function MainLayout() {
                     <BreadcrumbItem>{breadcrumbs[1].breadcrumb}</BreadcrumbItem>
                   </>
                 )}
-                {/* <BreadcrumbPage>{breadcrumbs[1].breadcrumb}</BreadcrumbPage> */}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-        </header>
+        </header> */}
         <Outlet />
       </SidebarInset>
     </SidebarProvider>

@@ -1,2 +1,3 @@
-export const BASE_URL: string = 'http://localhost:9999'
-export const TIMEOUT: number = 10 * 1000
+export const BASE_URL: string = import.meta.env.VITE_API_URL
+export const TIMEOUT: number = Number(import.meta.env.VITE_TIMEOUT) || 5000;
+    

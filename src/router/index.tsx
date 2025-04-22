@@ -21,8 +21,7 @@ interface RouterConfig {
 }
 
 const isAuthenticated = () => {
-  // return localStorage.getItem("token") !== null;
-  return localStorage.getItem("token") === null;
+  return localStorage.getItem("token") !== null;
 };
 
 const AuthGround = ({ children }: any) => {
@@ -40,27 +39,27 @@ export const routes: RouterConfig[] = [
   {
     path: "/",
     element: (
-      // <AuthGround>
-      <MainLayout />
-      // </AuthGround>
+      <AuthGround>
+        <MainLayout />
+      </AuthGround>
     ),
     children: [
       {
-        path: "/home",
+        path: "home",
         element: <Home />,
         meta: {
           menuName: "首页",
         },
       },
       {
-        path: "/article",
+        path: "article",
         element: <Outlet />, // 子路由渲染占位符
         meta: {
           menuName: "文章管理",
         },
         children: [
           {
-            path: "list", // 会自动继承父路径
+            path: "list",
             element: <ArticleList />,
             meta: {
               menuName: "文章列表",
@@ -76,13 +75,12 @@ export const routes: RouterConfig[] = [
         ],
       },
       {
-        path: "/users",
+        path: "users",
         element: <UserList />,
         meta: {
           menuName: "用户管理",
         },
       },
-      
     ],
   },
 ];
@@ -97,21 +95,21 @@ export interface MenuItem {
 
 // 生成菜单数据的工具函数
 export const generateMenuData = (routes: RouterConfig[], parentPath: string = ''): MenuItem[] => {
-  // 拼接父路径和当前路径
   const menus = routes
     .filter((route) => !route.meta?.hideInMenu && route.meta?.menuName)
     .map((route) => {
-      const fullPath = `${parentPath}${route.path}`;
+      const fullPath = parentPath === '/' ? `/${route.path}` : `${parentPath}/${route.path}`.replace('//', '/');
       return {
         path: fullPath,
         name: route.meta?.menuName!,
         icon: route.meta?.icon,
-        children: route.children ? generateMenuData(route.children, `${fullPath}/`) : undefined, // 修正递归调用参数
+        children: route.children ? generateMenuData(route.children, fullPath) : undefined,
       };
     });
 
   console.log(menus, "menus");
   return menus;
 };
+
 // 导出菜单数据
-export const menuData = generateMenuData(routes[1].children!);
+export const menuData = generateMenuData(routes[1].children!);    

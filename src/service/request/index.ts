@@ -4,12 +4,13 @@ import { BASE_URL, TIMEOUT } from "./config";
 class DFRequest {
   instance: AxiosInstance;
   constructor(baseURL: string, timeout: number) {
+    console.log(BASE_URL, import.meta.env , 'BASE_URL')
     this.instance = axios.create({
       baseURL,
       timeout,
     });
 
-    this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
+    this.instance.interceptors.request.use((config: any) => {
       const token = localStorage.getItem('token')
       if(token) {
         config.headers!['Authorization'] = `Bearer ${token}`;
