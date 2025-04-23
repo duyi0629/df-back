@@ -1,67 +1,88 @@
-import React from "react";
-import { Button, Form, Input, InputNumber } from "antd";
+import { ProForm, ProFormText, ProFormDateTimePicker } from '@ant-design/pro-components';
+import { Segmented } from 'antd';
+import CoverUpload from './c-cpn/CoverUpload';
+import EditorSwitch from './c-cpn/EditorSwitch';
+import TagInput from './c-cpn/TagInput';
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+const BlogEditorPage = () => {
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <ProForm
+        layout="vertical"
+        submitter={{ render: (_, dom) => <div style={{ textAlign: 'center' }}>{dom}</div> }}
+      >
+        {/* 标题与分类 */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24 }}>
+          <ProFormText 
+            name="title"
+            label="文章标题"
+            placeholder="请输入吸引人的标题"
+            rules={[{ required: true }]}
+            fieldProps={{ size: 'large' }}
+          />
+          <ProForm.Item
+            name="category"
+            label="分类选择"
+            rules={[{ required: true }]}
+          >
+            <Segmented
+              options={['技术', '生活', '旅行', '科技']}
+              size="large"
+              block
+            />
+          </ProForm.Item>
+        </div>
+
+        {/* 封面图上传 */}
+        <ProForm.Item
+          name="cover"
+          label="文章封面"
+          extra="上传一张吸引眼球的封面图吧！"
+        >
+          <CoverUpload />
+        </ProForm.Item>
+
+        {/* 双模式编辑器 */}
+        <ProForm.Item
+          name="content"
+          label="正文内容"
+          rules={[{ required: true, min: 1000 }]}
+        >
+          <EditorSwitch />
+        </ProForm.Item>
+
+        {/* 动态标签 */}
+        <ProForm.Item
+          name="tags"
+          label="文章标签"
+          extra="最多添加5个标签"
+        >
+          <TagInput />
+        </ProForm.Item>
+
+        {/* 高级选项 */}
+        <ProForm.Item
+          label="高级设置"
+          tooltip="专业博主必备选项"
+        >
+          <div style={{ display: 'flex', gap: 16 }}>
+            <ProFormDateTimePicker
+              name="publishTime"
+              label="定时发布"
+              width="md"
+            />
+            <ProFormText
+              name="seoKeywords"
+              label="SEO关键词"
+              placeholder="用逗号分隔"
+              width="lg"
+            />
+          </div>
+        </ProForm.Item>
+      </ProForm>
+    </div>
+  );
 };
 
-const validateMessages = {
-  required: "${label} is required!",
-  types: {
-    email: "${label} is not a valid email!",
-    number: "${label} is not a valid number!",
-  },
-  number: {
-    range: "${label} must be between ${min} and ${max}",
-  },
-};
 
-const onFinish = (values: any) => {
-  console.log(values);
-};
-
-const App: React.FC = () => (
-  <Form
-    {...layout}
-    name="nest-messages"
-    onFinish={onFinish}
-    style={{ maxWidth: 600 }}
-    validateMessages={validateMessages}
-  >
-    <Form.Item
-      name={["article", "name"]}
-      label="标题"
-      rules={[{ required: true }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name={["user", "email"]}
-      label="Email"
-      rules={[{ type: "email" }]}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name={["user", "age"]}
-      label="Age"
-      rules={[{ type: "number", min: 0, max: 99 }]}
-    >
-      <InputNumber />
-    </Form.Item>
-    <Form.Item name={["user", "website"]} label="Website">
-      <Input />
-    </Form.Item>
-    <Form.Item name={["user", "introduction"]} label="Introduction">
-      <Input.TextArea />
-    </Form.Item>
-    <Form.Item label={null}>
-      <Button type="primary" htmlType="submit">
-        Submit
-      </Button>
-    </Form.Item>
-  </Form>
-);
-
-export default App;
+export default BlogEditorPage
